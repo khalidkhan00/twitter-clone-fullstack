@@ -1,1 +1,1 @@
-# twitter-clone-fullstack
+Its a full stack Twiiter mini application having funtionality like create,update,delete,,follow,unfollow,worked on authorization much more will be come soon ,for front used React,and for backend Node js,all api are working fine need some more changes in ui part and in integration as i am getting unauthoized working on it
