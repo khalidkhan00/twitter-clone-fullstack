@@ -5,7 +5,9 @@ import { createTweet, deleteTweet, editTweet, getAllTweets, getExploreTweets, ge
 
 const router = express.Router();
 router.post("/", verifyToken, createTweet);
-router.delete("/:id", verifyToken, deleteTweet);
+// router.delete("/:id", verifyToken, deleteTweet);
+router.delete("/:id",deleteTweet);
+
 router.get("/timeline/:id", getAllTweets);
 router.put("/:id", verifyToken, editTweet)
 

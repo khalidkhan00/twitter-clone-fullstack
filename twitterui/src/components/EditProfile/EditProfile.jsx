@@ -52,11 +52,18 @@ const EditProfile = ({ setOpen }) => {
       () => {
         // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          const access_token = localStorage.getItem("access_token");
           try {
             const updateProfile = 
             await axios.put(`http://localhost:8000/api/users/${currentUser._id}`, {
               profilePicture: downloadURL,
-            });
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${access_token}`, // Include the access token in the authorization header
+              },
+            }
+            );
 
             console.log(updateProfile);
           } catch (error) {

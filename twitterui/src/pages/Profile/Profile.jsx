@@ -34,10 +34,18 @@ const Profile = () => {
 
   const handleFollow = async () => {
     try {
+      const access_token = localStorage.getItem("access_token");
       const endpoint = currentUser.following.includes(id) ? 'unfollow' : 'follow';
-      const response = await axios.put(`http://localhost:8000/api/users/${endpoint}/${id}`, {
+      const response = await axios.put(`http://localhost:8000/api/users/${endpoint}/${id}`,
+      {
         id: currentUser._id,
-      });
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`, // Include the access token in the authorization header
+        },
+      }
+      );
 
       dispatch(following(id));
     } catch (err) {
@@ -45,9 +53,25 @@ const Profile = () => {
     }
   };
 
+  // const handleDeleteTweet = async (tweetId) => {
+  //   try {
+      
+  //     await axios.delete(`http://localhost:8000/api/tweets/${tweetId}`);
+  //     setUserTweets((prevTweets) => prevTweets.filter((tweet) => tweet._id !== tweetId));
+  //   } catch (err) {
+  //     console.log('Error:', err);
+  //   }
+  // };
+
   const handleDeleteTweet = async (tweetId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/tweets/${tweetId}`);
+      const access_token = localStorage.getItem("access_token");
+      await axios.delete(`http://localhost:8000/api/tweets/${tweetId}`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+  
       setUserTweets((prevTweets) => prevTweets.filter((tweet) => tweet._id !== tweetId));
     } catch (err) {
       console.log('Error:', err);
@@ -84,11 +108,27 @@ const Profile = () => {
             )}
           </div>
           <div className="mt-6">
-            {userTweets.map((tweet) => (
+            {/* {userTweets.map((tweet) => (
               <div className="p-2" key={tweet._id}>
                 <Tweet tweet={tweet} onDelete={handleDeleteTweet} />
               </div>
-            ))}
+            ))} */}
+
+{/* {userTweets.map((tweet) => (
+  <div className="p-2" key={tweet._id}>
+    <Tweet tweet={tweet}>
+      {currentUser._id === id && (
+        <button
+          className="px-4 py-2 bg-red-500 rounded-full text-white"
+          onClick={() => handleDeleteTweet(tweet._id)}
+        >
+          Delete
+        </button>
+      )}
+    </Tweet>
+  </div>
+))} */}
+            
           </div>
         </div>
         <div className="px-6">
@@ -100,4 +140,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Profile

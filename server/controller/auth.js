@@ -16,11 +16,9 @@ export const signup= async (req,res,next)=>{
             process.env.JWT)
         
         const { password, ...othersData } =newUser._doc;
-        
-        res.cookie("access_token",token,{
-            httpOnly:true
-        }).status(200)
-        .json(othersData);
+        const value={...othersData,access_token:token}
+        res.status(200)
+        .json(value);
     }
     catch(err){
         next(err)
@@ -44,10 +42,10 @@ export const signin= async (req,res,next)=>{
         
         const { password, ...othersData } =user._doc;
 
-        res.cookie("access_token",token,{
-            httpOnly:true
-        }).status(200)
-        .json(othersData);
+    
+        const value={...othersData,access_token:token}
+        res.status(200)
+        .json(value);
 
     }
     catch(err){
